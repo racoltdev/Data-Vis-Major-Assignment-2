@@ -22,12 +22,12 @@
             border-radius: 2px;
             line-height: 1;
         }
-        
+
         path {
             stroke-width: .5px;
             stroke: black
         }
-        
+
         path:hover {
             opacity: .6;
             stroke: black;
@@ -50,13 +50,25 @@
 
 		#details {
 			table-layout: fixed;
-			width: 250px;
+			width: 350px;
+		}
+
+		.WideCell {
+			width: 200px;
+		}
+
+		.NarrowCell {
+			width: 75px;
 		}
     </style>
 
 </head>
 
 <body>
+	<div class="container">
+		<h1>Data Vis Major Assignment 2</h1>
+		<h3>Andrew Bajumpaa</div>
+	</div>
     <div id="tooltip"></div>
     <div class="container">
         <!-- Title goes here -->
@@ -67,9 +79,9 @@
 			<div class="fig3"></div>
 			<table id="details">
 				<tr>
-					<th>Gini Index</th>
-					<th>Year</th>
-					<th>Town</th>
+					<th class="NarrowCell">Gini Index</th>
+					<th class="NarrowCell">Year</th>
+					<th class="WideCell">Town</th>
 				</tr>
 			</table>
 		</div>
@@ -192,6 +204,12 @@
 				return ginis
 			}
 
+			const table_head = `
+				<tr>
+					<th class="NarrowCell">Gini Index</th>
+					<th class="NarrowCell">Year</th>
+					<th class="WideCell">Town</th>
+				</tr>`;
             /*--------------------------------------------------------*/
             /*----------------- channelling marks --------------------*/
             /*--------------------------------------------------------*/
@@ -206,9 +224,9 @@
 						.find(e => e.year == 2019)['Estimate!!Gini Index']))
 				)
                 .on("mouseenter", (m, d) => {
-                    //tooltip.transition()
-                    //    .duration(200)
-                    //    .style("opacity", .9);
+					// Reset table to just the header
+					tooltip.innerHTML = table_head;
+					// Load gini, year, and town name for each result
 					get_gini_years(d)
 						.forEach(r => {
 							const tr = tooltip.insertRow();
@@ -217,13 +235,11 @@
 							tr.insertCell().appendChild(document.createTextNode(d.properties.TOWN));
 						})
 
-					//tooltip.html(get_gini_years(d))
 				})
                 .on("mousemove", (m, d) => {
                     //tooltip.style("opacity", .9)
                 })
                 .on("mouseout", (m, d) => {
-					tooltip.innerHTML = "<tr><th>Gini Index</th><th>Year</th><th>Town</th></tr>"
                     //tooltip.transition()
                     //    .duration(400)
                     //    .style("opacity", 0)
